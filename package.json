@@ -1,0 +1,42 @@
+{
+  "name": "stretchspace",
+  "version": "1.0.0",
+  "description": "stretch space backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtemSavossin/StretchSpace.git"
+  },
+  "author": "Artyom Savossin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArtemSavossin/StretchSpace/issues"
+  },
+  "homepage": "https://github.com/ArtemSavossin/StretchSpace#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.6.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.12",
+    "react-redux": "^7.2.2",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.7"
+  }
+}
