@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = mongoose.Schema(
   {
@@ -9,11 +10,20 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+      default: '0000',
     },
     phone: {
       type: String,
       required: true,
       unique: true,
+    },
+    availableSessions: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
+    telegramId: {
+      type: String,
     },
     isAdmin: {
       type: Boolean,
@@ -25,6 +35,12 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    attendedSessions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'schedueledSession',
+      },
+    ],
   },
   { timeStamps: true }
 );

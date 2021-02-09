@@ -22,10 +22,32 @@
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('service-worker.js')
+            .then(
+              function (registration) {
+                // Registration was successful
+                console.log(
+                  'ServiceWorker registration successful with scope: ',
+                  registration.scope
+                );
+              },
+              function (err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+              }
+            )
+            .catch(function (err) {
+              console.log(err);
+            });
+        });
+      } else {
+        console.log('service worker is not supported');
+      }
+    </script>
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--

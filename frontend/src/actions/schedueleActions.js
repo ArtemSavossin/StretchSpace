@@ -1,27 +1,27 @@
 import axios from 'axios';
 import {
-  SESSION_DETAILS_FAIL,
-  SESSION_DETAILS_REQUEST,
-  SESSION_DETAILS_SUCCESS,
-  SESSION_LIST_FAIL,
-  SESSION_LIST_REQUEST,
-  SESSION_LIST_SUCCESS,
-  SESSION_DELETE_SUCCESS,
-  SESSION_DELETE_REQUEST,
-  SESSION_DELETE_FAIL,
-  SESSION_CREATE_REQUEST,
-  SESSION_CREATE_SUCCESS,
-  SESSION_CREATE_FAIL,
-  SESSION_UPDATE_REQUEST,
-  SESSION_UPDATE_SUCCESS,
-  SESSION_UPDATE_FAIL,
-} from '../constants/sessionConstants';
+  SCHEDUELE_DETAILS_FAIL,
+  SCHEDUELE_DETAILS_REQUEST,
+  SCHEDUELE_DETAILS_SUCCESS,
+  SCHEDUELE_LIST_FAIL,
+  SCHEDUELE_LIST_REQUEST,
+  SCHEDUELE_LIST_SUCCESS,
+  SCHEDUELE_DELETE_SUCCESS,
+  SCHEDUELE_DELETE_REQUEST,
+  SCHEDUELE_DELETE_FAIL,
+  SCHEDUELE_CREATE_REQUEST,
+  SCHEDUELE_CREATE_SUCCESS,
+  SCHEDUELE_CREATE_FAIL,
+  SCHEDUELE_UPDATE_REQUEST,
+  SCHEDUELE_UPDATE_SUCCESS,
+  SCHEDUELE_UPDATE_FAIL,
+} from '../constants/schedueledConstants';
 import { logout } from './userActions';
 
-export const createSession = () => async (dispatch, getState) => {
+export const createScheduele = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: SESSION_CREATE_REQUEST,
+      type: SCHEDUELE_CREATE_REQUEST,
     });
 
     const {
@@ -35,10 +35,10 @@ export const createSession = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/sessions`, {}, config);
+    const { data } = await axios.post(`/api/scheduele`, {}, config);
 
     dispatch({
-      type: SESSION_CREATE_SUCCESS,
+      type: SCHEDUELE_CREATE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -50,22 +50,22 @@ export const createSession = () => async (dispatch, getState) => {
       dispatch(logout());
     }
     dispatch({
-      type: SESSION_CREATE_FAIL,
+      type: SCHEDUELE_CREATE_FAIL,
       payload: message,
     });
   }
 };
 
-export const listSessions = () => async (dispatch) => {
+export const listSchedueles = () => async (dispatch) => {
   try {
-    dispatch({ type: SESSION_LIST_REQUEST });
+    dispatch({ type: SCHEDUELE_LIST_REQUEST });
 
-    const { data } = await axios.get('/api/sessions');
+    const { data } = await axios.get('/api/scheduele');
 
-    dispatch({ type: SESSION_LIST_SUCCESS, payload: data });
+    dispatch({ type: SCHEDUELE_LIST_SUCCESS, payload: data });
   } catch (err) {
     dispatch({
-      type: SESSION_LIST_FAIL,
+      type: SCHEDUELE_LIST_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message
@@ -74,16 +74,16 @@ export const listSessions = () => async (dispatch) => {
   }
 };
 
-export const listSessionDetails = (id) => async (dispatch) => {
+export const listSchedueleDetails = (id) => async (dispatch) => {
   try {
-    dispatch({ type: SESSION_DETAILS_REQUEST });
+    dispatch({ type: SCHEDUELE_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/sessions/${id}`);
+    const { data } = await axios.get(`/api/scheduele/${id}`);
 
-    dispatch({ type: SESSION_DETAILS_SUCCESS, payload: data });
+    dispatch({ type: SCHEDUELE_DETAILS_SUCCESS, payload: data });
   } catch (err) {
     dispatch({
-      type: SESSION_DETAILS_FAIL,
+      type: SCHEDUELE_DETAILS_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message
@@ -92,10 +92,10 @@ export const listSessionDetails = (id) => async (dispatch) => {
   }
 };
 
-export const updateSession = (product) => async (dispatch, getState) => {
+export const updateScheduele = (product) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: SESSION_UPDATE_REQUEST,
+      type: SCHEDUELE_UPDATE_REQUEST,
     });
 
     const {
@@ -111,16 +111,16 @@ export const updateSession = (product) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/sessions/${product._id}`,
+      `/api/scheduele/${product._id}`,
       product,
       config
     );
 
     dispatch({
-      type: SESSION_UPDATE_SUCCESS,
+      type: SCHEDUELE_UPDATE_SUCCESS,
       payload: data,
     });
-    dispatch({ type: SESSION_DETAILS_SUCCESS, payload: data });
+    dispatch({ type: SCHEDUELE_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -130,16 +130,16 @@ export const updateSession = (product) => async (dispatch, getState) => {
       dispatch(logout());
     }
     dispatch({
-      type: SESSION_UPDATE_FAIL,
+      type: SCHEDUELE_UPDATE_FAIL,
       payload: message,
     });
   }
 };
 
-export const deleteSession = (id) => async (dispatch, getState) => {
+export const deleteScheduele = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: SESSION_DELETE_REQUEST,
+      type: SCHEDUELE_DELETE_REQUEST,
     });
 
     const {
@@ -153,10 +153,10 @@ export const deleteSession = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/sessions/${id}`, config);
+    await axios.delete(`/api/scheduele/${id}`, config);
 
     dispatch({
-      type: SESSION_DELETE_SUCCESS,
+      type: SCHEDUELE_DELETE_SUCCESS,
     });
   } catch (error) {
     const message =
@@ -167,7 +167,7 @@ export const deleteSession = (id) => async (dispatch, getState) => {
       dispatch(logout());
     }
     dispatch({
-      type: SESSION_DELETE_FAIL,
+      type: SCHEDUELE_DELETE_FAIL,
       payload: message,
     });
   }

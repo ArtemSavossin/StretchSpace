@@ -16,7 +16,7 @@ const Header = (props) => {
           }}
         >
           <Navbar.Brand>
-            <h1>Stretch Space</h1>
+            <h1>Stretching Space</h1>
           </Navbar.Brand>
         </LinkContainer>
       </Navbar>

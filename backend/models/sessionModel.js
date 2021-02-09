@@ -12,9 +12,10 @@ const sessionSchema = mongoose.Schema(
       required: true,
       default: true,
     },
-    description: {
-      type: String,
+    isActual: {
+      type: Boolean,
       required: true,
+      default: true,
     },
     coach: {
       type: mongoose.Schema.Types.ObjectId,
@@ -23,15 +24,24 @@ const sessionSchema = mongoose.Schema(
     availablePlace: {
       type: Number,
       required: true,
-      default: 16,
+      default: 6,
     },
-    date: { type: Date, default: Date.now },
-    registeredUsers: [
+    dayOfWeek: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    hour: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    /*registeredUsers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
       },
-    ],
+    ],*/
   },
   { timeStamps: true }
 );
