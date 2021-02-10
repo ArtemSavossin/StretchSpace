@@ -22,6 +22,14 @@ const userSchema = mongoose.Schema(
       required: true,
       default: 1,
     },
+    hasCertifiacte: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    sessionsValidUntil: {
+      type: Date,
+    },
     telegramId: {
       type: String,
     },

@@ -14,29 +14,34 @@ const myTrainingsCheckin = new Scenes.BaseScene('myTrainingsCheckin');
 myTrainingsCheckin.enter(async (ctx) => {
   let date = new Date();
   let end = Number(date) + 14 * 24 * 60 * 60 * 1000;
-  let test = await Session.findOne({});
-  let jopa = await schedueledSession
+  const user = await User.findOne({ telegramId: ctx.from.id });
+  const finish = user.sessionsValidUntil
+    ? Number(user.sessionsValidUntil) < end
+      ? user.sessionsValidUntil
+      : new Date(end)
+    : new Date(end);
+
+  let scSessions = await schedueledSession
     .find({
-      start: { $gte: date, $lte: new Date(end) },
+      start: { $gte: date, $lte: finish },
     })
     .populate('class')
     .sort({ start: 1 });
 
-  const user = await User.findOne({ telegramId: ctx.from.id });
-  jopa = jopa.filter(
+  scSessions = scSessions.filter(
     (s) =>
       s.class.availablePlace > s.registeredUsers.length + s.waitList.length &&
       !s.registeredUsers.includes(user._id)
   );
   process.env[ctx.from.id] = {};
-  process.env[ctx.from.id].sessions = jopa;
+  process.env[ctx.from.id].sessions = scSessions;
   let msg = '\n';
-  for (let i = 0; i < jopa.length; ++i) {
-    msg += `${i + 1} : ${jopa[i].start.getMonth() + 1}.${jopa[
+  for (let i = 0; i < scSessions.length; ++i) {
+    msg += `${i + 1}) ${scSessions[i].start.getMonth() + 1}.${scSessions[
       i
-    ].start.getDate()}.${jopa[i].start.getHours()}:${jopa[
+    ].start.getDate()} - ${scSessions[i].start.getHours()}:${scSessions[
       i
-    ].start.getMinutes()} ${jopa[i].class.name}\n\n`;
+    ].start.getMinutes()} ${scSessions[i].class.name}\n\n`;
   }
   msg +=
     '\n введи через пробел номера тренировок, на которые хочешь записаться';

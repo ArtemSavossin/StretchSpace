@@ -12,26 +12,27 @@ const myTrainingsCheckout = new Scenes.BaseScene('myTrainingsCheckout');
 
 myTrainingsCheckout.enter(async (ctx) => {
   const user = await User.findOne({ telegramId: ctx.from.id });
-  let jopa = await schedueledSession
+  let scSessions = await schedueledSession
     .find({
       registeredUsers: { $in: [user._id] },
+      start: { $gte: new Date() },
     })
     .populate('class')
     .sort({ start: 1 });
 
   process.env[ctx.from.id] = {};
-  process.env[ctx.from.id].atSessions = jopa;
+  process.env[ctx.from.id].atSessions = scSessions;
   let msg = '\n';
-  for (let i = 0; i < jopa.length; ++i) {
-    msg += `${i + 1} : ${jopa[i].start.getMonth() + 1}.${jopa[
+  for (let i = 0; i < scSessions.length; ++i) {
+    msg += `${i + 1}) ${scSessions[i].start.getMonth() + 1}.${scSessions[
       i
-    ].start.getDate()}.${jopa[i].start.getHours()}:${jopa[
+    ].start.getDate()} - ${scSessions[i].start.getHours()}:${scSessions[
       i
-    ].start.getMinutes()} ${jopa[i].class.name} \n\n`;
+    ].start.getMinutes()} ${scSessions[i].class.name} \n\n`;
   }
   const { backKeyboard } = getBackKeyboard(ctx);
   ctx.reply(
-    `Тебе предстоит посетить следующие тренировки: \n${msg}\nЧерез пробел введи номера тренировок, от которых хочешь отказаться. Обрати внимание, что если до тренировки осталось меньше 5 часов, то мы не вернем за нее деньги`,
+    `Тебе предстоит посетить следующие тренировки: \n${msg}\nЧерез пробел введи номера тренировок, от которых хочешь отказаться. Обрати внимание, что если до тренировки осталось меньше 6 часов, то мы не вернем за нее деньги`,
     backKeyboard
   );
 });
@@ -62,7 +63,7 @@ myTrainingsCheckout.on('text', async (ctx) => {
           if (
             Number(process.env[ctx.from.id].atSessions[choosen[i] - 1].start) -
               Number(date) >=
-            5 * 60 * 60 * 1000
+            6 * 60 * 60 * 1000
           ) {
             returning += 1;
           }

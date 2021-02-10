@@ -6,7 +6,10 @@ const scheduele = new Scenes.BaseScene('scheduele');
 
 scheduele.enter(async (ctx) => {
   const { schedueleKeyboard } = getSchedueleKeyboard(ctx);
-  ctx.reply('Картинка с расписанием', schedueleKeyboard);
+  ctx.replyWithPhoto(
+    { source: './backend/bot/data/ssScheduele.jpg' },
+    schedueleKeyboard
+  );
 });
 
 scheduele.on('text', (ctx) => {

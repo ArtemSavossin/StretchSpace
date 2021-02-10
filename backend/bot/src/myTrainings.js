@@ -32,24 +32,25 @@ myTrainings.on('text', async (ctx) => {
       break;
     case 'История тренировок':
       const user = await User.findOne({ telegramId: ctx.from.id });
-      let jopa = await schedueledSession
+      let scSessions = await schedueledSession
         .find({
           registeredUsers: { $in: [user._id] },
+          start: { $lte: new Date() },
         })
         .populate('class')
         .sort({ start: 1 });
       let msg = '\n';
-      for (let i = 0; i < jopa.length; ++i) {
-        msg += `${i + 1} : ${jopa[i].start.getMonth() + 1}.${jopa[
+      for (let i = 0; i < scSessions.length; ++i) {
+        msg += `${i + 1} : ${scSessions[i].start.getMonth() + 1}.${scSessions[
           i
-        ].start.getDate()}.${jopa[i].start.getHours()}:${jopa[
+        ].start.getDate()}.${scSessions[i].start.getHours()}:${scSessions[
           i
-        ].start.getMinutes()} ${jopa[i].class.name}\n\n`;
+        ].start.getMinutes()} ${scSessions[i].class.name}\n\n`;
       }
       const { backKeyboard } = getBackKeyboard(ctx);
       ctx.reply(
         msg +
-          `Всего посещено тренировок : ${jopa.length}\nДоступно тренировок: ${user.availableSessions}`,
+          `Всего посещено тренировок : ${scSessions.length}\nДоступно тренировок: ${user.availableSessions}`,
         backKeyboard
       );
       break;

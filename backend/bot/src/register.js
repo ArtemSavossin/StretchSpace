@@ -16,8 +16,8 @@ register.enter(async (ctx) => {
   const { registerKeyboard } = getRegisterKeyboard(ctx);
   ctx.reply(
     `Рады знакомству, ${ctx.message.from.first_name} ${ctx.message.from.last_name}\n\n\
-    Нажми “Продолжить”, если имя указано верно;\n\
-    Если хочешь изменить — введи его в сообщении.`,
+Нажми “Продолжить”, если имя указано верно;\n\
+Если хочешь изменить — введи его в сообщении.`,
     registerKeyboard
   );
 });
@@ -55,7 +55,7 @@ register.on('text', async (ctx) => {
   const { mainKeyboard } = getMainKeyboard(ctx);
   ctx.reply(
     'Рад сообщить, что новым пользователям мы дарим одно бесплатное занятие.\
-    Ты можешь выбрать и записаться на любую из свободных тренировок, для этого перейди в раздел Мои тренировки',
+Ты можешь выбрать и записаться на любую из свободных тренировок, для этого перейди в раздел Мои тренировки',
     mainKeyboard
   );
   ctx.scene.leave();

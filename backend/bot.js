@@ -26,8 +26,11 @@ const stage = new Scenes.Stage([
   myTrainingsCheckout,
 ]);
 console.log('ok');
+console.log(bot);
 bot.use(session());
 bot.use(stage.middleware());
+console.log(bot.ctx);
+console.log(bot.options.contextType);
 bot.start(async (ctx) => {
   ctx.scene.enter('start');
 });
