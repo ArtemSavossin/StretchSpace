@@ -64,7 +64,7 @@ myTrainingsCheckin.on('text', async (ctx) => {
         .map((x) => parseInt(x));
       if (choosen.length) {
         const user = await User.findOne({ telegramId: ctx.from.id });
-        if (user.availableSessions >= choosen.length || user.hasCert) {
+        if (user.availableSessions >= choosen.length || user.hasCertifiacte) {
           const delta = user.availableSessions - choosen.length;
           for (let i = 0; i < choosen.length; ++i) {
             console.log(process.env[ctx.from.id].sessions[choosen[i] - 1]._id);
@@ -77,14 +77,16 @@ myTrainingsCheckin.on('text', async (ctx) => {
               }
             );
           }
-          await User.updateOne(
-            {
-              _id: user._id,
-            },
-            {
-              availableSessions: delta,
-            }
-          );
+          if (!user.hasCertifiacte) {
+            await User.updateOne(
+              {
+                _id: user._id,
+              },
+              {
+                availableSessions: delta,
+              }
+            );
+          }
           ctx.reply('Записал');
         } else {
           ctx.reply(

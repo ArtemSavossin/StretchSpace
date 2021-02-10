@@ -69,14 +69,16 @@ myTrainingsCheckout.on('text', async (ctx) => {
           }
         }
         let delta = returning + user.availableSessions;
-        await User.updateOne(
-          {
-            _id: user._id,
-          },
-          {
-            availableSessions: delta,
-          }
-        );
+        if (!user.hasCertifiacte) {
+          await User.updateOne(
+            {
+              _id: user._id,
+            },
+            {
+              availableSessions: delta,
+            }
+          );
+        }
         ctx.reply('Отписал');
       } else {
         ctx.reply(

@@ -16,9 +16,10 @@ connectDB();
 
 const importData = async () => {
   try {
-    //await User.deleteMany();
+    await User.deleteMany();
     await Session.deleteMany();
     await schedueledSession.deleteMany();
+    await User.insertMany(users);
     const createdUsers = await User.find({});
     const coach = createdUsers[0]._id;
 

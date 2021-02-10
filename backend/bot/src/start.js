@@ -41,10 +41,17 @@ start.on('text', async (ctx) => {
     console.log('user i text is', user);
     if (user) {
       const { mainKeyboard } = getMainKeyboard(ctx);
-      ctx.reply(
-        `Привет, ${user.name}. Выбери, что хочешь делать`,
-        mainKeyboard
-      );
+      ctx.reply(`Привет, ${user.name}.`, mainKeyboard);
+      if (!user.telegramId) {
+        await User.updateOne(
+          {
+            _id: user._id,
+          },
+          {
+            telegramId: String(ctx.from.id),
+          }
+        );
+      }
       ctx.scene.enter('main');
     } else {
       const uid = String(ctx.from.id);
